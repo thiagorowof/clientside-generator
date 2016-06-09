@@ -1,6 +1,6 @@
-# clientside-generator
+# Clientside-generator
 
-# generator-clientside [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > Generator of web apps (client side)
 
 ## Installation
@@ -18,11 +18,10 @@ Then generate your new project:
 yo clientside
 ```
 
-## Getting To Know Yeoman
+## Getting To Know Clientside-Generator
 
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
+ * First of a fullstack generator package.
+ * Yeoman generator is the core..
  * Feel free to [learn more about Yeoman](http://yeoman.io/).
 
 ## License
