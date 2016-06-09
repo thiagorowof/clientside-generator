@@ -2,6 +2,9 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var _ = require('underscore');
+
+_.str = require('underscore.string');
 
 module.exports = yeoman.Base.extend({
   prompting: function() {
@@ -27,24 +30,77 @@ module.exports = yeoman.Base.extend({
       {
         type    : 'input',
         name    : 'client',
-        message : 'Client\'s name:'
+        message : 'Client\'s name:',
+        validate: function(value) {
+          value = _.str.trim(value);
+          if (_.isEmpty(value)) {
+            return 'Please enter a name';
+          }
+          return true;
+        }
       },
       {
         type    : 'input',
         name    : 'git',
-        message : 'Github username or organization:'
+        message : 'Github username or organization:',
+        filter: val => val.toLowerCase()
       },
       {
-        type    : 'confirm',
-        name    : 'cool',
-        message : 'Would you like to enable the Cool feature?'
-      }]).then(function (answers) {
-      this.props = answers;
-      this.log('App\'s name:', answers.name);
-      this.log('Description:', answers.description);
-      this.log('Client\'s Name:', answers.client);
-      this.log('Git:', answers.git);
-      this.log('Cool feature:', answers.cool);
+        type: 'checkbox',
+        name: 'modules',
+        message: 'Which Angular modules would you like to include?',
+        choices: [
+          {
+            value: 'animateModule',
+            name: 'angular-animate.js',
+            checked: false
+          },
+          {
+            value: 'ariaModule',
+            name: 'angular-aria.js',
+            checked: false
+          },
+          {
+            value: 'cookiesModule',
+            name: 'angular-cookies.js',
+            checked: false
+          },
+          {
+            value: 'resourceModule',
+            name: 'angular-resource.js',
+            checked: false
+          },
+          {
+            value: 'messagesModule',
+            name: 'angular-messages.js',
+            checked: false
+          },
+          {
+            value: 'sanitizeModule',
+            name: 'angular-sanitize.js',
+            checked: false
+          },
+          {
+            value: 'touchModule',
+            name: 'angular-touch.js',
+            checked: false
+          }
+        ]
+      },
+      {
+        type: 'list',
+        name: 'stylesheet',
+        default: 1,
+        message: 'What would you like to write stylesheets with?',
+        choices: ['CSS', 'Sass', 'Less'],
+        filter: val => val.toLowerCase()
+      }
+    ]).then(function (answers) {
+       this.props = answers;
+      // this.log('App\'s name:', answers.name);
+      // this.log('Description:', answers.description);
+      // this.log('Client\'s Name:', answers.client);
+      // this.log('Git:', answers.git);
       done();
     }.bind(this));
   },

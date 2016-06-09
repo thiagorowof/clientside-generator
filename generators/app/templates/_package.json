@@ -1,7 +1,7 @@
 {
     "name": "<%= package %>",
     "version": "0.0.1",
-    "main": "src/<%= package %>.js",
+    "main": "<%= package %>.js",
     "scripts": {
       "start": "npm start"
     },
@@ -13,10 +13,7 @@
         "browser-sync": "^2.5.2"
     },
     "dependencies": {
-      "jquery": "2.1.3",
-      "angular": "~1.4.x",
-      "angular-ui-router" : "*",
-      "angular-ui-bootstrap": "*"
+      "bower": "^1.7.9"
     },
     "repository": {
       "type": "git",
