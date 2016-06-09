@@ -46,9 +46,12 @@ module.exports = yeoman.Base.extend({
         filter: val => val.toLowerCase()
       },
       {
-        type    : 'confirm',
-        name    : 'uibootstrap',
-        message : 'Install Ui bootstrap?'
+        type    : 'list',
+        name    : 'uiframework',
+        default: 0,
+        message: 'Choose your UI Framework:',
+        choices: ['None', 'Angular Material', 'Angular UI Bootstrap'],
+        filter: val => val.toLowerCase()
       },
       {
         type: 'checkbox',
@@ -95,17 +98,14 @@ module.exports = yeoman.Base.extend({
       {
         type: 'list',
         name: 'stylesheet',
-        default: 1,
+        default: 0,
         message: 'What would you like to write stylesheets with?',
         choices: ['CSS', 'Sass', 'Less'],
         filter: val => val.toLowerCase()
       }
     ]).then(function (answers) {
        this.props = answers;
-      // this.log('App\'s name:', answers.name);
-      // this.log('Description:', answers.description);
-      // this.log('Client\'s Name:', answers.client);
-      // this.log('Git:', answers.git);
+      this.log('App\'s name:', answers.uiframework);
       done();
     }.bind(this));
   },
@@ -137,22 +137,22 @@ module.exports = yeoman.Base.extend({
     this.fs.copyTpl(
       this.templatePath('index.html'),
       this.destinationPath('app/index.html'),
-      {title: this.props.description, uibootstrap: this.props.uibootstrap}
+      {
+        title: this.props.name,
+        description: this.props.description,
+        uiframework: this.props.uiframework
+      }
     );
     this.fs.copyTpl(
       this.templatePath('main.js'),
       this.destinationPath('app/main.js'),
-      {title: this.props.description, uibootstrap: this.props.uibootstrap}
+      {name: this.props.name, uiframework: this.props.uiframework}
     );
     this.fs.copyTpl(
       this.templatePath('_bower.json'),
       this.destinationPath('bower.json'),
       {package: this.props.name}
     );
-    // this.fs.copy(
-    //   this.templatePath('bowerrc'),
-    //   this.destinationPath('.bowerrc')
-    // );
   },
 
   install: function () {
