@@ -1,5 +1,51 @@
-<html>
-  <head>
-    <title><%= title %></title>
-  </head>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title><%= title %></title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width" initial-scale="1.0">
+  <meta name="description" content="<%= description %>">
+
+  <!-- bower css -->
+  <% if (uibootstrap) { %>
+  <link rel="stylesheet" href="../bower_components/angular-bootstrap/ui-bootstrap-csp.css">
+  <link rel="stylesheet" href="../bower_components/bootstrap-css-only/css/bootstrap.min.css" >
+  <% } %>
+  <!-- end bower css -->
+
+
+</head>
+<body ng-app="<%= title %>">
+
+  <!-- if ng route -->
+  <div ui-view>uiview</div>
+
+  <% if (uibootstrap) { %>
+  <button type="button" class="btn btn-primary" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+    Com ui bootstrap
+  </button>
+  <% } else { %>
+  <button type="button">
+    Sem ui bootstrap
+  </button>
+  <% } %>
+
+  <!-- bower components js -->
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/angular/angular.min.js"></script>
+  <% if (uibootstrap) { %>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
+  <script src="../bower_components/angular-touch/angular-touch.min.js"></script>
+  <% } %>
+  <!-- end bower components js -->
+
+  <!-- main app js -->
+  <script src="main.js"></script>
+  <!-- end main app js -->
+
+
+</body>
 </html>

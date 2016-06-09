@@ -46,6 +46,11 @@ module.exports = yeoman.Base.extend({
         filter: val => val.toLowerCase()
       },
       {
+        type    : 'confirm',
+        name    : 'uibootstrap',
+        message : 'Install Ui bootstrap?'
+      },
+      {
         type: 'checkbox',
         name: 'modules',
         message: 'Which Angular modules would you like to include?',
@@ -132,10 +137,15 @@ module.exports = yeoman.Base.extend({
     this.fs.copyTpl(
       this.templatePath('index.html'),
       this.destinationPath('app/index.html'),
-      {title: this.props.description}
+      {title: this.props.description, uibootstrap: this.props.uibootstrap}
     );
     this.fs.copyTpl(
-      this.templatePath('bower.json'),
+      this.templatePath('main.js'),
+      this.destinationPath('app/main.js'),
+      {title: this.props.description, uibootstrap: this.props.uibootstrap}
+    );
+    this.fs.copyTpl(
+      this.templatePath('_bower.json'),
       this.destinationPath('bower.json'),
       {package: this.props.name}
     );
