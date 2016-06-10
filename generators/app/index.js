@@ -104,28 +104,59 @@ module.exports = yeoman.Base.extend({
         filter: val => val.toLowerCase()
       }
     ]).then(function (answers) {
-       this.props = answers;
-      this.log('App\'s name:', answers.uiframework);
+      this.props = answers;
+
+      var hasMod = function (mod) { return answers.modules.indexOf(mod) !== -1; };
+      this.animateModule = hasMod('animateModule');
+      this.ariaModule = hasMod('ariaModule');
+      this.cookiesModule = hasMod('cookiesModule');
+      this.messagesModule = hasMod('messagesModule');
+      this.resourceModule = hasMod('resourceModule');
+      this.sanitizeModule = hasMod('sanitizeModule');
+      this.touchModule = hasMod('touchModule');
+
+      var angMods = [];
+
+      if (this.animateModule) {
+        angMods.push("'ngAnimate'");
+      }
+
+      if (this.ariaModule) {
+        angMods.push("'ngAria'");
+      }
+
+      if (this.cookiesModule) {
+        angMods.push("'ngCookies'");
+      }
+
+      if (this.messagesModule) {
+        angMods.push("'ngMessages'");
+      }
+
+      if (this.resourceModule) {
+        angMods.push("'ngResource'");
+      }
+
+      if (this.sanitizeModule) {
+        angMods.push("'ngSanitize'");
+      }
+
+      if (this.touchModule) {
+        angMods.push("'ngTouch'");
+      }
+
+      if (angMods.length) {
+        this.env.options.angularDeps = '\n    ' + angMods.join(',\n    ') + '\n  ';
+      }
+
+      this.log('App\'s name:', this.animateModule);
+      this.log('App\'s name:', answers.modules);
       done();
     }.bind(this));
   },
 
   // scaffoldFolders: function(){
-  //   this.mkdirp("app");
-  //   this.mkdirp("app/assets");
-  //   this.mkdirp("app/assets/fonts");
-  //   this.mkdirp("app/assets/img");
-  //   this.mkdirp("app/assets/js");
-  //   this.mkdirp("app/assets/styles");
-  //   this.mkdirp("app/modules");
-  //   this.mkdirp("app/modules/nomeModulo");
-  //   this.mkdirp("app/modules/nomeModulo/controllers");
-  //   this.mkdirp("app/modules/nomeModulo/factories");
-  //   this.mkdirp("app/modules/nomeModulo/i18n");
-  //   this.mkdirp("app/modules/nomeModulo/partials");
-  //   this.mkdirp("app/modules/nomeModulo/services");
-  //   this.mkdirp("app/modules/nomeModulo/views");
-  //   this.mkdirp("dist");
+  //   this.mkdir("app");
   // },
 
   writing: function () {
@@ -153,18 +184,15 @@ module.exports = yeoman.Base.extend({
       this.destinationPath('bower.json'),
       {
         name: this.props.name,
-        uiframework: this.props.uiframework
+        uiframework: this.props.uiframework,
+        animateModule: this.animateModule,
+        ariaModule: this.ariaModule,
+        cookiesModule: this.cookiesModule,
+        messagesModule: this.messagesModule,
+        resourceModule: this.resourceModule,
+        sanitizeModule: this.sanitizeModule,
+        touchModule: this.touchModule
       }
-    );
-    this.fs.copyTpl(
-      this.templatePath('modules/controllers/mainController.js'),
-      this.destinationPath('app/modules/controllers/mainController.js'),
-      {name: this.props.name, uiframework: this.props.uiframework}
-    );
-    this.fs.copyTpl(
-      this.templatePath('modules/views/mainView.html'),
-      this.destinationPath('app/modules/views/mainView.html'),
-      {name: this.props.name, uiframework: this.props.uiframework}
     );
   },
 
