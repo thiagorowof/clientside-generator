@@ -151,7 +151,10 @@ module.exports = yeoman.Base.extend({
     this.fs.copyTpl(
       this.templatePath('_bower.json'),
       this.destinationPath('bower.json'),
-      {package: this.props.name}
+      {
+        name: this.props.name,
+        uiframework: this.props.uiframework
+      }
     );
   },
 

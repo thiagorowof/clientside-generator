@@ -1,14 +1,14 @@
 {
-    "name": "<%= package %>",
+    "name": "<%= name %>",
     "version": "0.0.1",
     "dependencies": {
       "jquery": "2.1.3",
-      "bootstrap-css-only": "*",
-      "angular-bootstrap": "*",
       "angular": "*",
-      "angular-ui-router": "*",
+      "angular-ui-router": "*" <% if (uiframework === 'angular ui bootstrap') { %>,
+      "bootstrap-css-only": "*",
       "angular-touch":"*",
       "angular-animate": "~1.5.5",
-      "angular-material": "*"
+      "angular-bootstrap": "*" <% }else if (uiframework === 'angular material') { %>,
+      "angular-material": "*" <% } %>
     }
 }
