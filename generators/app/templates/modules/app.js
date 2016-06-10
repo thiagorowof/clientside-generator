@@ -14,7 +14,7 @@ angular.module('<%= name %>', ['ui.router'])
 	$stateProvider
 		.state('main', {
 			url: "/",
-			templateUrl: "modules/views/mainView.html",
+			templateUrl: "modules/main/views/mainView.html",
       controller  : "MainController"
 		});
 });

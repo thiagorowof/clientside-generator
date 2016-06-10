@@ -175,8 +175,8 @@ module.exports = yeoman.Base.extend({
       }
     );
     this.fs.copyTpl(
-      this.templatePath('main.js'),
-      this.destinationPath('app/main.js'),
+      this.templatePath('app.js'),
+      this.destinationPath('app/modules/app.js'),
       {name: this.props.name, uiframework: this.props.uiframework}
     );
     this.fs.copyTpl(
@@ -195,13 +195,13 @@ module.exports = yeoman.Base.extend({
       }
     );
     this.fs.copyTpl(
-      this.templatePath('modules/controllers/mainController.js'),
-      this.destinationPath('app/modules/controllers/mainController.js'),
+      this.templatePath('modules/main/controllers/mainController.js'),
+      this.destinationPath('app/modules/main/controllers/mainController.js'),
       {name: this.props.name, uiframework: this.props.uiframework}
     );
     this.fs.copyTpl(
-      this.templatePath('modules/views/mainView.html'),
-      this.destinationPath('app/modules/views/mainView.html'),
+      this.templatePath('modules/main/views/mainView.html'),
+      this.destinationPath('app/modules/main/views/mainView.html'),
       {name: this.props.name, uiframework: this.props.uiframework}
     );
 
