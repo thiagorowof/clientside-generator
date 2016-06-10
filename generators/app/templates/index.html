@@ -22,21 +22,8 @@
   <body ng-app="<%= title %>">
 
     <!-- if ng route -->
-    <div ui-view>uiview</div>
+    <div ui-view></div>
 
-    <% if (uiframework === 'angular ui bootstrap') { %>
-      <button type="button" class="btn btn-primary" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
-        Com ui bootstrap
-      </button>
-    <% } else if (uiframework === 'angular material') { %>
-      <md-button class="md-fab" aria-label="Eat cake">
-        aaa
-      </md-button>
-    <% } else { %>
-      <button type="button">
-        Sem ui bootstrap
-      </button>
-    <% } %>
 
     <!-- default components js -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
@@ -60,6 +47,8 @@
 
     <!-- main app js -->
     <script src="main.js"></script>
+    <script src="modules/controllers/mainController.js"></script>
+
     <!-- end main app js -->
 
   </body>

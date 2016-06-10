@@ -153,6 +153,16 @@ module.exports = yeoman.Base.extend({
       this.destinationPath('bower.json'),
       {package: this.props.name}
     );
+    this.fs.copyTpl(
+      this.templatePath('modules/controllers/mainController.js'),
+      this.destinationPath('app/modules/controllers/mainController.js'),
+      {name: this.props.name, uiframework: this.props.uiframework}
+    );
+    this.fs.copyTpl(
+      this.templatePath('modules/views/mainView.html'),
+      this.destinationPath('app/modules/views/mainView.html'),
+      {name: this.props.name, uiframework: this.props.uiframework}
+    );
   },
 
   install: function () {
