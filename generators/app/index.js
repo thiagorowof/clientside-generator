@@ -184,6 +184,15 @@ module.exports = yeoman.Base.extend({
         hasModules: this.hasModules
       }
     );
+    this.fs.copy(
+      this.templatePath('_gulpfile.js'),
+      this.destinationPath('gulpfile.js')
+    );
+    this.fs.copy(
+      //ajustar isso para copiar toda a pasta de assets depois
+      this.templatePath('assets/styles/main.css'),
+      this.destinationPath('app/assets/styles/main.css')
+    );
     this.fs.copyTpl(
       this.templatePath('_bower.json'),
       this.destinationPath('bower.json'),

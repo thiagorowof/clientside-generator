@@ -6,7 +6,7 @@
       "start": "npm start"
     },
     "devDependencies": {
-      "gulp": "^3.9.0",
+      "gulp": "*",
       "gulp-eslint": "^2.0.0",
       "gulp-exclude-gitignore": "^1.0.0",
       "gulp-line-ending-corrector": "^1.0.1",
@@ -14,6 +14,22 @@
       "gulp-mocha": "^2.0.0",
       "gulp-plumber": "^1.0.0",
       "gulp-nsp": "^2.1.0",
+      "gulp-uglify": "*",
+      "gulp-rename": "*",
+      "pump": "*",
+      "gulp-sass": "*",
+      "gulp-less": "*",
+      "gulp-less-to-scss": "*",
+      "gulp-htmlhint": "*",
+      "gulp-csslint": "*",
+      "gulp-scss-lint": "*",
+      "gulp-lesshint": "*",
+      "gulp-jshint": "*",
+      "gulp-css-scss":"*",
+      "gulp-clean-css":"*",
+      "gulp-jscs":"*",
+      "gulp-imagemin":"*",
+      "gulp-shorthand":"*",
       "browser-sync": "^2.5.2"
     },
     "dependencies": {
