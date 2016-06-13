@@ -1,14 +1,18 @@
-//angular.module('<%= name %>', ['ui.router','ui.bootstrap','ui.touch','ui.animate', 'ngMaterial']);
 <% if (uiframework === 'angular ui bootstrap') { %>
-angular.module('<%= name %>', ['ui.bootstrap', 'ui.router'])
+angular.module('<%= name %>',
+	[
+	'ui.bootstrap',
+	'ui.router'<% if (hasModules) { %>, <%- angularModules %> <% } %> ])
 <% } else if (uiframework === 'angular material') { %>
-angular.module('<%= name %>', ['ngMaterial', 'ui.router'])
+angular.module('<%= name %>',
+	[
+	'ngMaterial',
+	'ui.router'<% if (hasModules) { %>, <%- angularModules %> <% } %> ])
 <% } else { %>
-angular.module('<%= name %>', ['ui.router'])
+angular.module('<%= name %>',
+	[
+	'ui.router' <% if (hasModules) { %>, <%- angularModules %> <% } %> ])
 <% } %>
-
-
-
 .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 	$urlRouterProvider.otherwise('/');
 	$stateProvider

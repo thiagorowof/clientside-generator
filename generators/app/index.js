@@ -146,11 +146,11 @@ module.exports = yeoman.Base.extend({
       }
 
       if (angMods.length) {
-        this.env.options.angularDeps = '\n    ' + angMods.join(',\n    ') + '\n  ';
+        this.angularModules = '\n    ' + angMods.join(',\n    ') + '\n  ';
+        this.hasModules = true;
       }
 
-      this.log('App\'s name:', this.animateModule);
-      this.log('App\'s name:', answers.modules);
+      this.log('App\'s name:', this.hasModules);
       done();
     }.bind(this));
   },
@@ -175,9 +175,14 @@ module.exports = yeoman.Base.extend({
       }
     );
     this.fs.copyTpl(
-      this.templatePath('app.js'),
+      this.templatePath('modules/_app.js'),
       this.destinationPath('app/modules/app.js'),
-      {name: this.props.name, uiframework: this.props.uiframework}
+      {
+        name: this.props.name,
+        uiframework: this.props.uiframework,
+        angularModules: this.angularModules,
+        hasModules: this.hasModules
+      }
     );
     this.fs.copyTpl(
       this.templatePath('_bower.json'),
