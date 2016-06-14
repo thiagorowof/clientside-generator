@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('<%= name %>')
-  .controller('MainController', ['$scope', '$uibModal', function($scope, $uibModal) {
-	init();
+  .controller('MainController', ['$scope', <% if (uiframework === 'angular ui bootstrap') { %>'$uibModal',<% } %> function($scope, <% if (uiframework === 'angular ui bootstrap') { %> $uibModal <% } %> ) {
+    //corrigir esse controller ai...se a pessoa escolher angular materila, ele carrega o uibmodal do bootstrap, e da crash...ou seja, o uibmodal so deveria ser carregado se o projeto foir bootstrap
+  init();
 	function init(){
     console.log("controller main log");
 

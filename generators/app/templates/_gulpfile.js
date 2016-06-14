@@ -18,6 +18,10 @@
 // não instalado, talvez não necessário: gulp-bower-files (injeta bower packages)
 //
 // -------------------- ok ---------- https://github.com/vol7/shorthand simplifica muito CSSs!
+// critical - remover styles inline e os salva em um arquivo css
+// gulp-concat - concatena todos os arquivos (js por exemplo) em um arquivo só
+// gulp del - deletar arquivos e pastas ( a ideia é fazer uma pasta pre dist, onde serao jogado os arquivos, e depois eles irão para o dist, e essa pasta sera deletada)
+// gulp-inject - para injetar js e css no html, junto a streams de merge, pode pegar os arquivos minificados e concatenar, e depois injetar
 // http://ypereirareis.github.io/blog/2015/10/22/gulp-merge-less-sass-css/ merge de arquivos, adicionar depois isso
 
 var gulp        = require('gulp');
@@ -67,6 +71,12 @@ const imagemin = require('gulp-imagemin');
 //gulp-shorthand , simplica os arquivos css
 var shorthand = require('gulp-shorthand');
 
+//gulp-contats
+var concat = require('gulp-concat');
+var concatCss = require('gulp-concat-css');
+
+//gulp-inject
+var inject = require('gulp-inject');
 
 
 //browsersync
@@ -85,12 +95,10 @@ gulp.task('serve', function() {
       routes: {'/bower_components': 'bower_components'}
       }
     });
-    gulp.watch([
-    'app/*.html',
-    'app/**/*.js',
-    'app/**/*.css',
-    'app/**/*.html'
-  ]).on('change', reload);
+});
+
+gulp.task('watch', function() {
+    gulp.watch('app/**/*.{js,html,less,scss,css}', ['htmlLint','jsLint','cssLint','lessLint','scssLint']).on('change', reload);
 });
 
 //uglify
@@ -118,14 +126,14 @@ gulp.task('less', function () {
     .pipe(less({
       paths: [ path.join(__dirname, 'less', 'includes') ]
     }))
-    .pipe(gulp.dest('dist/css'));
+    .pipe(gulp.dest('dist/assets/styles'));
 });
 
 //gulp-sass
 gulp.task('sass', function () {
   return gulp.src('app/assets/styles/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('dist/css'));
+    .pipe(gulp.dest('dist/assets/styles'));
 });
 
 //gulp-less-to-scss(sass)
@@ -151,39 +159,40 @@ gulp.task('css-scss', () => {
 
 //html, js, css, less and sass hints
 gulp.task('cssLint', function() {
-  gulp.src('app/assets/styles/*.css')
+  return gulp.src('app/**/*.css')
     .pipe(csslint())
     .pipe(csslint.reporter());
 });
 gulp.task('htmlLint', function() {
-  gulp.src("app/*.html")
-  	.pipe(htmlhint())
+  return gulp.src('app/**/*.html')
+    .pipe(htmlhint())
+  	.pipe(htmlhint.reporter());
 });
 gulp.task('scssLint', function() {
-  return gulp.src('app/assets/styles/*.scss')
-    .pipe(scsslint());
+  return gulp.src('app/**/*.scss')
+    .pipe(scsslint())
+    .pipe(scsslint.reporter());
 });
 gulp.task('lessLint', function() {
-    return gulp.src('app/assets/styles/*.less')
-        .pipe(lesshint({
-            // Options
-        }))
-        .pipe(lesshint.reporter());
+  return gulp.src('app/**/*.less')
+    .pipe(lesshint())
+    .pipe(lesshint.reporter());
 });
 gulp.task('jsLint', function() {
-  return gulp.src('app/assets/js/*.js')
+  return gulp.src('app/**/*.js')
     .pipe(jshint())
-    .pipe(jshint.reporter('YOUR_REPORTER_HERE'));
+    .pipe(jshint.reporter());
+    // .pipe(jshint.reporter('YOUR_REPORTER_HERE'));
 });
 
 //gulp-clean-css
 gulp.task('minify-css', function() {
-  return gulp.src('app/assets/styles/*.css')
+  return gulp.src('app/assets/styles/*.css','dist/assets/styles/*.css')
     .pipe(cleanCSS({compatibility: 'ie8'}))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('dist/assets/styles/'));
 });
 
-//gulp-jscs
+//gulp-jscs, checa os js, um task a parte tambem.
 gulp.task('checkJs', () => {
     return gulp.src('app/modules/app.js')
         .pipe(jscs({fix: true}))
@@ -196,16 +205,44 @@ gulp.task('checkJs', () => {
 gulp.task('compressImg', () =>
 	gulp.src('app/assets/img/*')
 		.pipe(imagemin())
-		.pipe(gulp.dest('dist/img'))
+		.pipe(gulp.dest('dist/assets/img'))
 );
 
-//gulp-shorthand , simplica os arquivos css
+//gulp-shorthand , simplica os arquivos css, task a parte das principais
 gulp.task('cssShort', function () {
 	return gulp.src('app/assets/styles/*.css')
 		.pipe(shorthand())
-		.pipe(gulp.dest('dist'));
+		.pipe(gulp.dest('dist/assets/styles'));
 });
 
 
+//gulp-concats
+gulp.task('concatJs', function() {
+  return gulp.src('app/assets/js/*.js')
+    .pipe(concat('main.min.js'))
+    .pipe(gulp.dest('dist/assets/js'));
+});
+
+gulp.task('concatCss', function () {
+  return gulp.src('dist/assets/styles/*.css')
+    .pipe(concatCss("main.min.css"))
+    .pipe(gulp.dest('dist/assets/styles'));
+});
+
+//gulp inject
+gulp.task('inject', function () {
+  var target = gulp.src('dist/index.html');
+  // It's not necessary to read the files (will speed up things), we're only after their paths:
+  var sources = gulp.src(['dist/assets/js/*.js', 'dist/assets/styles/*.css'], {read: false});
+
+  return target.pipe(inject(sources))
+    .pipe(gulp.dest('dist'));
+});
+
+
+
 //default gulp task - Gulp only on cmd
-gulp.task('default', ['serve']);
+gulp.task('default', ['serve', 'watch']);
+
+//build prod task
+gulp.task('build', ['compressImg','sass','less','minify-css','minify-js','concatJs','concatCss','inject']);

@@ -29,6 +29,9 @@
       "gulp-clean-css":"*",
       "gulp-jscs":"*",
       "gulp-imagemin":"*",
+      "gulp-concat":"*",
+      "gulp-concat-css":"*",
+      "gulp-inject":"*",
       "gulp-shorthand":"*",
       "browser-sync": "^2.5.2"
     },

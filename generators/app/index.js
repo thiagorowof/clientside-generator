@@ -167,7 +167,7 @@ module.exports = yeoman.Base.extend({
     );
     this.fs.copyTpl(
       this.templatePath('index.html'),
-      this.destinationPath('app/index.html'),
+      this.destinationPath('index.html'),
       {
         title: this.props.name,
         description: this.props.description,
