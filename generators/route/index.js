@@ -3,16 +3,26 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var _ = require('underscore');
-var fs = require('fs');
+var path = require('path');
+var util = require('util');
+var ScriptBase = require('../script-base.js');
+var angularUtils = require('../util.js');
 
 _.str = require('underscore.string');
 
 module.exports = yeoman.Base.extend({
-  prompting: function () {
-    console.log('prompting - zap2sss');
-    console.log(this.appname);
-    console.log(this.name);
 
+  default: function(){
+
+    var match = require('fs').readFileSync(path.join('app/modules/app.js'), 'utf-8').match(/\.state/);
+
+    if (match !== null) {
+      this.foundWhenForRoute = true;
+    }
+
+  },
+
+  prompting: function () {
     var done = this.async();
     // Have Yeoman greet the user.
     this.log(yosay(
@@ -35,7 +45,6 @@ module.exports = yeoman.Base.extend({
       }
     ]).then(function (answers) {
       this.props = answers;
-      //this.log('App\'s name:', this.moduleName);
       done();
     }.bind(this));
   },
@@ -57,6 +66,43 @@ module.exports = yeoman.Base.extend({
         moduleName: this.props.moduleName
       }
     );
+  },
+
+  rewriteAppJs: function(){
+    var coffee = this.env.options.coffee;
+
+    if (!this.foundWhenForRoute) {
+        this.on('end', function () {
+            this.log(chalk.yellow(
+                    '\nangular-ui-router is not installed. Skipping adding the route to ' +
+                    'scripts/app.' + (coffee ? 'coffee' : 'js')
+            ));
+        });
+        return;
+    }
+
+    this.state = this.props.moduleName;
+    if (this.options.state) {
+        this.state = this.options.state;
+    }
+
+    var _name = this.appname.toLowerCase();
+
+    var config = {
+        file: path.join('app/modules/app.js'),
+        needle: '$stateProvider',
+        splicable: [
+                "  url: '/" + this.state + "'",
+                "  templateUrl: 'modules/" + this.props.moduleName.toLowerCase() + "/view/" +
+                this.props.moduleName +".html'",
+                "  controller: '" + this.state + "Controller'"
+        ]
+    };
+
+    config.splicable.unshift(".state('" + this.state + "', {");
+    config.splicable.push("})");
+
+    angularUtils.rewriteFile(config);
   },
 
   install: function () {
