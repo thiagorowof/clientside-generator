@@ -150,7 +150,7 @@ module.exports = yeoman.Base.extend({
         this.hasModules = true;
       }
 
-      this.log('App\'s name:', this.hasModules);
+      //this.log('App\'s name:', this.hasModules);
       done();
     }.bind(this));
   },

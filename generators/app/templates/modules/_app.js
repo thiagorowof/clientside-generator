@@ -20,5 +20,5 @@ angular.module('<%= name %>',
 			url: "/",
 			templateUrl: "modules/main/views/mainView.html",
       controller  : "MainController"
-		});
+		});		
 });
