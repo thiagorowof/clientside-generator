@@ -105,7 +105,7 @@ module.exports = yeoman.Base.extend({
     angularUtils.rewriteFile(config);
   },
 
-  install: function () {
-    this.installDependencies();
-  }
+  // install: function () {
+  //   this.installDependencies();
+  // }
 });

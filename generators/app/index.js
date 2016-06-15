@@ -166,8 +166,8 @@ module.exports = yeoman.Base.extend({
       {package: this.props.name}
     );
     this.fs.copyTpl(
-      this.templatePath('index.html'),
-      this.destinationPath('index.html'),
+      this.templatePath('_index.html'),
+      this.destinationPath('app/index.html'),
       {
         title: this.props.name,
         description: this.props.description,
@@ -214,8 +214,8 @@ module.exports = yeoman.Base.extend({
       {name: this.props.name, uiframework: this.props.uiframework}
     );
     this.fs.copyTpl(
-      this.templatePath('modules/main/views/mainView.html'),
-      this.destinationPath('app/modules/main/views/mainView.html'),
+      this.templatePath('modules/main/views/main.html'),
+      this.destinationPath('app/modules/main/views/main.html'),
       {name: this.props.name, uiframework: this.props.uiframework}
     );
 

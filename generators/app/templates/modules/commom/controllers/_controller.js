@@ -8,4 +8,6 @@
  * Controller of the <%= appName %>
  */
 angular.module('<%= appName %>')
-  .controller('<%= moduleName %>Controller');
+  .controller('<%= moduleName %>Controller', function(){
+
+  });

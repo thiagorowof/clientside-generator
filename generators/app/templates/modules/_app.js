@@ -18,7 +18,7 @@ angular.module('<%= name %>',
 	$stateProvider
 		.state('main', {
 			url: "/",
-			templateUrl: "modules/main/views/mainView.html",
+			templateUrl: "modules/main/views/main.html",
       controller  : "MainController"
-		});		
+		});
 });

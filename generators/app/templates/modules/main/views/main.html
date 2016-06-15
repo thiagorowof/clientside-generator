@@ -1,0 +1,19 @@
+<% if (uiframework === 'angular ui bootstrap') { %>
+  <header class="navbar navbar-default navbar-fixed-top navbar-inner">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <div class="navbar-brand">Alô Mundo Angular UI Bootstrap</div>
+      </div>
+    </div>
+  </header>
+<% } else if (uiframework === 'angular material') { %>
+  <md-toolbar class="md-primary">
+    <div class="md-toolbar-tools">
+      <h2 class="md-flex">Alô Mundo Angular Material</h2>
+    </div>
+  </md-toolbar>
+<% } else { %>
+<header>
+  Alô Mundo
+</header>
+<% } %>
