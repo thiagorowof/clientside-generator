@@ -74,9 +74,9 @@ module.exports = yeoman.Base.extend({
         needle: '$stateProvider',
         splicable: [
           '.state("' + this.props.moduleName.toLowerCase() +'", {',
-          '  url: "/' + this.props.moduleName + '"',
+          '  url: "/' + this.props.moduleName + '",',
           '  templateUrl: "modules/' + this.props.moduleName.toLowerCase() + '/view/' +
-          this.props.moduleName +'.html"',
+          this.props.moduleName +'.html",',
           '  controller: "' + this.props.moduleName.toLowerCase() + 'Controller"',
           '})'
         ]
