@@ -7,21 +7,10 @@
     <meta name="viewport" content="width=device-width" initial-scale="1.0">
     <meta name="description" content="<%= description %>">
 
-
-    <!-- main app css -->
     <link rel="stylesheet" href="assets/styles/main.css">
-    <!-- end main app css -->
 
-    <!-- bower css -->
-    <% if (uiframework === 'angular ui bootstrap') { %>
-      <link rel="stylesheet" href="../bower_components/angular-bootstrap/ui-bootstrap-csp.css">
-      <link rel="stylesheet" href="../bower_components/bootstrap-css-only/css/bootstrap.min.css" >
-    <% } else if (uiframework === 'angular material') { %>
-      <link rel="stylesheet" href="../bower_components/angular-material/angular-material.min.css" >
-    <% } else { %>
-
-    <% } %>
-    <!-- end bower css -->
+    <!-- bower:css -->
+    <!-- endbower -->
 
   </head>
   <body ng-app="<%= title %>">
@@ -29,28 +18,12 @@
     <!-- if ng route -->
     <div ui-view></div>
 
-    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../bower_components/angular/angular.min.js"></script>
-    <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-
-    <!-- bower components js -->
-    <% if (uiframework === 'angular ui bootstrap') { %>
-      <script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-      <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-      <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
-      <script src="../bower_components/angular-touch/angular-touch.min.js"></script>
-    <% } else if (uiframework === 'angular material') { %>
-      <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
-      <script src="../bower_components/angular-aria/angular-aria.min.js"></script>
-      <script src="../bower_components/angular-messages/angular-messages.min.js"></script>
-      <script src="../bower_components/angular-material/angular-material.min.js"></script>
-    <% } %>
-    <!-- end bower components js -->
+    <!-- bower:js -->
+    <!-- endbower -->
 
     <script src="modules/app.js"></script>
     <script src="modules/main/controllers/mainController.js"></script>
     <!-- inject:js -->
     <!-- endinject -->
-
   </body>
 </html>

@@ -3,6 +3,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var _ = require('underscore');
+var wiredep = require('wiredep');
 
 _.str = require('underscore.string');
 
@@ -222,6 +223,11 @@ module.exports = yeoman.Base.extend({
   },
 
   install: function () {
-    this.installDependencies();
+    //this.installDependencies();
+    this.installDependencies({
+      callback: function () {
+        this.spawnCommand('gulp', ['bowerInject']);
+      }.bind(this)
+    });
   }
 });

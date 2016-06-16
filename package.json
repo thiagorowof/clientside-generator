@@ -19,6 +19,7 @@
   ],
   "dependencies": {
     "chalk": "^1.0.0",
+    "dateformat": "^1.0.12",
     "underscore": "^1.8.3",
     "yeoman-generator": "^0.23.0",
     "yosay": "^1.0.0"

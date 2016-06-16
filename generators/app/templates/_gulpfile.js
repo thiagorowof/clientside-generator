@@ -82,11 +82,21 @@ var inject = require('gulp-inject');
 //browsersync
 const reload = browserSync.reload;
 
+var wiredep = require('wiredep').stream;
 
 //-------------------------------------------------------------------------------------
 //------------------------------------------tasks--------------------------------------
 //-------------------------------------------------------------------------------------
 
+// Inject bower dependencies on index.html
+gulp.task('bowerInject', function () {
+  return gulp.src('app/index.html')
+   .pipe(wiredep({
+     directory: 'bower_components',
+     //ignorePath: '../'
+   }))
+ .pipe(gulp.dest('app'));
+});
 
 gulp.task('serve', function() {
     browserSync.init({
@@ -230,7 +240,7 @@ gulp.task('concatCss', function () {
 });
 
 //gulp inject
-gulp.task('inject', function () {
+gulp.task('assetsInject', function () {
   var target = gulp.src('dist/index.html');
   // It's not necessary to read the files (will speed up things), we're only after their paths:
   var sources = gulp.src(['dist/assets/js/*.js', 'dist/assets/styles/*.css'], {read: false});
@@ -245,4 +255,4 @@ gulp.task('inject', function () {
 gulp.task('default', ['serve', 'watch']);
 
 //build prod task
-gulp.task('build', ['compressImg','sass','less','minify-css','minify-js','concatJs','concatCss','inject']);
+gulp.task('build', ['compressImg','sass','less','minify-css','minify-js','concatJs','concatCss','assetsInject']);
