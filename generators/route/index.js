@@ -69,40 +69,28 @@ module.exports = yeoman.Base.extend({
   },
 
   rewriteAppJs: function(){
-    var coffee = this.env.options.coffee;
-
-    if (!this.foundWhenForRoute) {
-        this.on('end', function () {
-            this.log(chalk.yellow(
-                    '\nangular-ui-router is not installed. Skipping adding the route to ' +
-                    'scripts/app.' + (coffee ? 'coffee' : 'js')
-            ));
-        });
-        return;
-    }
-
-    this.state = this.props.moduleName;
-    if (this.options.state) {
-        this.state = this.options.state;
-    }
-
-    var _name = this.appname.toLowerCase();
-
-    var config = {
+    angularUtils.rewriteFile({
         file: path.join('app/modules/app.js'),
         needle: '$stateProvider',
         splicable: [
-                "  url: '/" + this.state + "'",
-                "  templateUrl: 'modules/" + this.props.moduleName.toLowerCase() + "/view/" +
-                this.props.moduleName +".html'",
-                "  controller: '" + this.state + "Controller'"
+          '.state("' + this.props.moduleName.toLowerCase() +'", {',
+          '  url: "/' + this.props.moduleName + '"',
+          '  templateUrl: "modules/' + this.props.moduleName.toLowerCase() + '/view/' +
+          this.props.moduleName +'.html"',
+          '  controller: "' + this.props.moduleName.toLowerCase() + 'Controller"',
+          '})'
         ]
-    };
+    });
+  },
 
-    config.splicable.unshift(".state('" + this.state + "', {");
-    config.splicable.push("})");
-
-    angularUtils.rewriteFile(config);
+  addJsIndex: function(){
+    angularUtils.rewriteFile({
+        file: path.join('app/index.html'),
+        needle: '<!-- inject:js -->',
+        splicable: [
+          '<script src="modules/' + this.props.moduleName.toLowerCase() + '/controllers/' + this.props.moduleName + '.js"></script>'
+        ]
+    });
   },
 
   // install: function () {

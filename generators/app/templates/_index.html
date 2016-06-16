@@ -12,9 +12,6 @@
     <link rel="stylesheet" href="assets/styles/main.css">
     <!-- end main app css -->
 
-    <!-- inject:css -->
-    <!-- endinject -->
-
     <!-- bower css -->
     <% if (uiframework === 'angular ui bootstrap') { %>
       <link rel="stylesheet" href="../bower_components/angular-bootstrap/ui-bootstrap-csp.css">
@@ -32,11 +29,9 @@
     <!-- if ng route -->
     <div ui-view></div>
 
-    <!-- default components js -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/angular/angular.min.js"></script>
     <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <!-- end default components js -->
 
     <!-- bower components js -->
     <% if (uiframework === 'angular ui bootstrap') { %>
@@ -52,12 +47,10 @@
     <% } %>
     <!-- end bower components js -->
 
-    <!-- main app js -->
     <script src="modules/app.js"></script>
     <script src="modules/main/controllers/mainController.js"></script>
-    <!-- end main app js -->
-
     <!-- inject:js -->
     <!-- endinject -->
+
   </body>
 </html>
