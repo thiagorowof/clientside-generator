@@ -191,8 +191,8 @@ module.exports = yeoman.Base.extend({
     );
     this.fs.copy(
       //ajustar isso para copiar toda a pasta de assets depois
-      this.templatePath('assets/styles/main.css'),
-      this.destinationPath('app/assets/styles/main.css')
+      this.templatePath('assets/**/*.*'),
+      this.destinationPath('app/assets/')
     );
     this.fs.copyTpl(
       this.templatePath('_bower.json'),

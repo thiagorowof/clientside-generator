@@ -111,17 +111,6 @@ gulp.task('watch', function() {
     gulp.watch('app/**/*.{js,html,less,scss,css}', ['htmlLint','jsLint','cssLint','lessLint','scssLint']).on('change', reload);
 });
 
-//uglify
-gulp.task('minify-js', function (cb) {
-  pump([
-        gulp.src('app/**/*.js'),
-        uglify(),
-        gulp.dest('dist')
-    ],
-    cb
-  );
-});
-
 //gulp-rename
 //isso é apenas uma das formas de se renomear....funcional, mas sem uso por enquanto.
 gulp.task('rename', function() {
@@ -138,34 +127,24 @@ gulp.task('less', function () {
     }))
     .pipe(gulp.dest('dist/assets/styles'));
 });
-
 //gulp-sass
 gulp.task('sass', function () {
   return gulp.src('app/assets/styles/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('dist/assets/styles'));
 });
-
 //gulp-less-to-scss(sass)
 gulp.task('lessToScss',function(){
     gulp.src('app/assets/styles/*.less')
 		.pipe(lessToScss())
 		.pipe(gulp.dest('dist/scss'));
 });
-
 //gulp-css-scss'
 gulp.task('css-scss', () => {
   return gulp.src('app/assets/styles/*.css')
     .pipe(cssScss())
     .pipe(gulp.dest('dist/scss'));
 });
-
-//gulp-scss-to-less
-// gulp.task('scssToLess',function(){
-//     gulp.src('app/assets/styles/*.scss')
-//         .pipe(scssToLess())
-//         .pipe(gulp.dest('dist/less'));
-// });
 
 //html, js, css, less and sass hints
 gulp.task('cssLint', function() {
@@ -195,10 +174,22 @@ gulp.task('jsLint', function() {
     // .pipe(jshint.reporter('YOUR_REPORTER_HERE'));
 });
 
+//uglify
+gulp.task('minify-js', function (cb) {
+  pump([
+        gulp.src('dist/assets/js/main.concat.js'),
+        uglify(),
+        gulp.dest('dist/assets/js/min')
+    ],
+    cb
+  );
+});
+
 //gulp-clean-css
 gulp.task('minify-css', function() {
-  return gulp.src('app/assets/styles/*.css','dist/assets/styles/*.css')
+  return gulp.src('dist/assets/styles/main.concat.css')
     .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(cleanCSS("main.min.css"))
     .pipe(gulp.dest('dist/assets/styles/'));
 });
 
@@ -229,13 +220,13 @@ gulp.task('cssShort', function () {
 //gulp-concats
 gulp.task('concatJs', function() {
   return gulp.src('app/assets/js/*.js')
-    .pipe(concat('main.min.js'))
+    .pipe(concat('main.concat.js'))
     .pipe(gulp.dest('dist/assets/js'));
 });
 
 gulp.task('concatCss', function () {
   return gulp.src('dist/assets/styles/*.css')
-    .pipe(concatCss("main.min.css"))
+    .pipe(concatCss("main.concat.css"))
     .pipe(gulp.dest('dist/assets/styles'));
 });
 
@@ -243,7 +234,7 @@ gulp.task('concatCss', function () {
 gulp.task('assetsInject', function () {
   var target = gulp.src('dist/index.html');
   // It's not necessary to read the files (will speed up things), we're only after their paths:
-  var sources = gulp.src(['dist/assets/js/*.js', 'dist/assets/styles/*.css'], {read: false});
+  var sources = gulp.src(['dist/assets/js/main.min.js', 'dist/assets/styles/main.min.css'], {read: false});
 
   return target.pipe(inject(sources))
     .pipe(gulp.dest('dist'));
@@ -255,4 +246,4 @@ gulp.task('assetsInject', function () {
 gulp.task('default', ['serve', 'watch']);
 
 //build prod task
-gulp.task('build', ['compressImg','sass','less','minify-css','minify-js','concatJs','concatCss','assetsInject']);
+gulp.task('build', ['compressImg','sass','less','concatCss','minify-css','concatJs','minify-js','assetsInject']);
