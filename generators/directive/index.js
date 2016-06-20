@@ -22,8 +22,8 @@ module.exports = yeoman.Base.extend({
     this.prompt([
       {
         type    : 'input',
-        name    : 'moduleName',
-        message : 'What is your module\'s name?',
+        name    : 'directiveName',
+        message : 'What is your directive\'s name?',
         filter: val => val.toLowerCase(),
         validate: function(value) {
           value = _.str.trim(value);
@@ -32,45 +32,38 @@ module.exports = yeoman.Base.extend({
           }
           return true;
         }
+      },
+      {
+        type    : 'confirm',
+        name: 'directiveType',
+        message: 'Would you like to save your directive in a custom folder?',
+        default: 'Y/n'
+      },
+      {
+        when: function(props) { return (/true/i).test(props.directiveType); },
+        type: 'input',
+        name: 'directiveFolder',
+        message: 'Where do you save it?',
+        filter: val => val.toLowerCase()
       }
     ]).then(function (answers) {
       this.props = answers;
+      if(!this.props.directiveType){
+        this.props.directiveFolder = 'commom'
+      }
       done();
     }.bind(this));
   },
 
   writing: function () {
     this.fs.copyTpl(
-      this.templatePath('../../app/templates/modules/commom/controllers/_controller.js'),
-      this.destinationPath('app/modules/'+this.props.moduleName+'/controllers/'+this.props.moduleName+'.js'),
+      this.templatePath('../../app/templates/modules/commom/directive/_directive.js'),
+        this.destinationPath('app/modules/'+this.props.directiveFolder+'/directives/'+this.props.directiveName+'/'+this.props.directiveName+'.js'),
       {
         appName: this.appname,
-        moduleName: this.props.moduleName
+        directiveName: this.props.directiveName
       }
     );
-
-    this.fs.copyTpl(
-      this.templatePath('../../app/templates/modules/commom/view/_view.html'),
-      this.destinationPath('app/modules/'+this.props.moduleName+'/view/'+this.props.moduleName+'.html'),
-      {
-        moduleName: this.props.moduleName
-      }
-    );
-  },
-
-  rewriteAppJs: function(){
-    angularUtils.rewriteFile({
-        file: path.join('app/modules/app.js'),
-        needle: '$stateProvider',
-        splicable: [
-          '.state("' + this.props.moduleName.toLowerCase() +'", {',
-          '  url: "/' + this.props.moduleName + '",',
-          '  templateUrl: "modules/' + this.props.moduleName.toLowerCase() + '/view/' +
-          this.props.moduleName +'.html",',
-          '  controller: "' + this.props.moduleName.toLowerCase() + 'Controller"',
-          '})'
-        ]
-    });
   },
 
   addJsIndex: function(){
@@ -78,7 +71,7 @@ module.exports = yeoman.Base.extend({
         file: path.join('app/index.html'),
         needle: '<!-- inject:js -->',
         splicable: [
-          '<script src="modules/' + this.props.moduleName.toLowerCase() + '/controllers/' + this.props.moduleName + '.js"></script>'
+          '<script src="modules/'+this.props.directiveFolder+'/directives/'+this.props.directiveName+'/'+this.props.directiveName+'.js"></script>'
         ]
     });
   },
@@ -86,4 +79,5 @@ module.exports = yeoman.Base.extend({
   // install: function () {
   //   this.installDependencies();
   // }
+
 });
