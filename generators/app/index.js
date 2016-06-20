@@ -189,11 +189,32 @@ module.exports = yeoman.Base.extend({
       this.templatePath('_gulpfile.js'),
       this.destinationPath('gulpfile.js')
     );
+
+    //ajustar isso para copiar toda a pasta de assets depois
+    //this.templatePath('assets/**/*.*'),
+    //esses ifs irão morrer, da pra simplificar isso
     this.fs.copy(
-      //ajustar isso para copiar toda a pasta de assets depois
-      this.templatePath('assets/styles/main.css'),
-      this.destinationPath('app/assets/styles/main.css')
+      this.templatePath('assets/notStylesheet/**/*.*'),
+      this.destinationPath('app/assets')
     );
+    if (this.props.stylesheet == "css") {
+      this.fs.copy(
+        this.templatePath('assets/styles/*.css'),
+        this.destinationPath('app/assets/styles')
+      );
+    }
+    else if (this.props.stylesheet == "sass") {
+      this.fs.copy(
+        this.templatePath('assets/styles/*.scss'),
+        this.destinationPath('app/assets/styles')
+      );
+    }
+    else {
+      this.fs.copy(
+        this.templatePath('assets/styles/*.less'),
+        this.destinationPath('app/assets/styles')
+      );
+    }
     this.fs.copyTpl(
       this.templatePath('_bower.json'),
       this.destinationPath('bower.json'),
