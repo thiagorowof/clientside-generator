@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('<%= appName %>')
-  .controller('<%= directiveName %>Directive', function () {
+  .directive('<%= directiveName %>Directive', function () {
     return {
       template: '<div></div>',
       restrict: 'E',
